@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  ~ This Source Code Form is subject to the terms of the Mozilla Public License,
+  ~ v. 2.0. If a copy of the MPL was not distributed with this file, You can
+  ~ obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+  ~ the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+  ~
+  ~ Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+  ~  graphic logo is a trademark of OpenMRS Inc.
+  -->
+
+<dataset>
+  <files_file_category file_category_id="1" name="Category1" retired="0" uuid="test0000-0000-0000-0000-category0001"
+                       creator="1"
+                       date_created="2000-01-01 00:00:00.0"/>
+  <files_file_category file_category_id="2" name="Category2" retired="0" uuid="test0000-0000-0000-0000-category0002"
+                       creator="1"
+                       date_created="2000-01-01 00:00:00.0"/>
+  <!-- file_data base64 encoded value: Hello world! -->
+  <files_file file_id="1" filename="/test.test" file_category_id="1" file_data="SGVsbG8gd29ybGQh" voided="0"
+              uuid="test0000-0000-0000-0000-file00000001" creator="1" mime_type="text/plain"
+              date_created="2000-01-01 00:00:00.0"/>
+  <!-- file_data base64 encoded value: Hello world, again! -->
+  <files_file file_id="2" filename="/test2.test" file_category_id="1" file_data="SGVsbG8gd29ybGQsIGFnYWluIQ==" voided="1"
+              uuid="test0000-0000-0000-0000-file00000002" creator="1" mime_type="text/plain"
+              date_created="2000-01-01 00:00:00.0"/>
+  <!-- file_data base64 encoded value: Hello world, once more! -->
+  <files_file file_id="3" filename="/test3.test" file_category_id="2" file_data="SGVsbG8gd29ybGQsIG9uY2UgbW9yZSE=" voided="0"
+              uuid="test0000-0000-0000-0000-file00000003" creator="1" mime_type="text/plain"
+              date_created="2000-01-01 00:00:00.0"/>
+</dataset>

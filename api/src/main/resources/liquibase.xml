@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ This Source Code Form is subject to the terms of the Mozilla Public License,
+  ~ v. 2.0. If a copy of the MPL was not distributed with this file, You can
+  ~ obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+  ~ the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+  ~
+  ~ Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+  ~  graphic logo is a trademark of OpenMRS Inc.
+  -->
+
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+
+  <changeSet id="files-1" author="Connect for Life">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists tableName="files_file_category"/>
+      </not>
+    </preConditions>
+    <comment>Created table for FileCategory entity</comment>
+    <createTable tableName="files_file_category">
+      <column name="file_category_id" autoIncrement="true" type="int">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <!-- BaseOpenmrsMetadata -->
+      <column name="name" defaultValue="" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="description" type="varchar(255)"/>
+      <column name="creator" defaultValueNumeric="0" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="date_created" type="DATETIME">
+        <constraints nullable="false"/>
+      </column>
+      <column name="changed_by" type="int"/>
+      <column name="date_changed" type="DATETIME"/>
+      <column name="retired" defaultValueBoolean="false" type="BOOLEAN">
+        <constraints nullable="false"/>
+      </column>
+      <column name="date_retired" type="DATETIME"/>
+      <column name="retired_by" type="int"/>
+      <column name="retire_reason" type="varchar(255)"/>
+      <!-- BaseOpenmrsObject -->
+      <column name="uuid" type="char(38)"/>
+    </createTable>
+    <!-- BaseOpenmrsMetadata -->
+    <addForeignKeyConstraint constraintName="file_category_creator_fk"
+                             baseTableName="files_file_category" baseColumnNames="creator"
+                             referencedTableName="users" referencedColumnNames="user_id"/>
+    <addForeignKeyConstraint constraintName="file_category_changed_by_fk"
+                             baseTableName="files_file_category" baseColumnNames="changed_by"
+                             referencedTableName="users" referencedColumnNames="user_id"/>
+    <addForeignKeyConstraint constraintName="file_category_retired_by_fk"
+                             baseTableName="files_file_category" baseColumnNames="retired_by"
+                             referencedTableName="users" referencedColumnNames="user_id"/>
+  </changeSet>
+
+  <changeSet id="files-2" author="Connect for Life">
+    <preConditions onFail="MARK_RAN">
+      <not>
+        <tableExists tableName="files_file"/>
+      </not>
+    </preConditions>
+    <comment>Created table for File entity</comment>
+    <createTable tableName="files_file">
+      <column name="file_id" autoIncrement="true" type="int">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="filename" type="varchar(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="mime_type" type="varchar(255)"/>
+      <column name="file_category_id" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="file_data" type="longblob"/>
+      <!-- BaseOpenmrsData -->
+      <column name="creator" type="int">
+        <constraints nullable="false"/>
+      </column>
+      <column name="date_created" type="datetime">
+        <constraints nullable="false"/>
+      </column>
+      <column name="changed_by" type="int"/>
+      <column name="date_changed" type="datetime"/>
+      <column name="voided" type="boolean" defaultValueBoolean="false">
+        <constraints nullable="false"/>
+      </column>
+      <column name="date_voided" type="datetime"/>
+      <column name="voided_by" type="int"/>
+      <column name="void_reason" type="varchar(255)"/>
+      <!-- BaseOpenmrsObject -->
+      <column name="uuid" type="char(38)"/>
+    </createTable>
+    <addForeignKeyConstraint constraintName="file_project_fk"
+                             baseTableName="files_file" baseColumnNames="file_category_id"
+                             referencedTableName="files_file_category"
+                             referencedColumnNames="file_category_id"/>
+    <!-- BaseOpenmrsData -->
+    <addForeignKeyConstraint constraintName="file_creator_fk"
+                             baseTableName="files_file" baseColumnNames="creator"
+                             referencedTableName="users" referencedColumnNames="user_id"/>
+    <addForeignKeyConstraint constraintName="file_changed_by_fk"
+                             baseTableName="files_file" baseColumnNames="changed_by"
+                             referencedTableName="users" referencedColumnNames="user_id"/>
+    <addForeignKeyConstraint constraintName="file_voided_by_fk"
+                             baseTableName="files_file" baseColumnNames="voided_by"
+                             referencedTableName="users" referencedColumnNames="user_id"/>
+  </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ This Source Code Form is subject to the terms of the Mozilla Public License,
+  ~  v. 2.0. If a copy of the MPL was not distributed with this file, You can
+  ~  obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
+  ~  the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
+  ~
+  ~ Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
+  ~ graphic logo is a trademark of OpenMRS Inc.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="files.FileService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+    <property name="transactionManager" ref="transactionManager"/>
+    <property name="target">
+      <bean class="org.openmrs.module.files.api.service.impl.FileServiceImpl">
+        <property name="fileDAO">
+          <bean class="org.openmrs.module.files.api.dao.FileDAO">
+            <property name="dbSessionFactory" ref="dbSessionFactory"/>
+          </bean>
+        </property>
+      </bean>
+    </property>
+    <property name="preInterceptors" ref="serviceInterceptors"/>
+    <property name="transactionAttributeSource" ref="transactionAttributeSource"/>
+  </bean>
+  <bean parent="serviceContext">
+    <property name="moduleService">
+      <list merge="true">
+        <value>org.openmrs.module.files.api.service.FileService</value>
+        <ref bean="files.FileService"/>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="files.FileCategoryService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+    <property name="transactionManager" ref="transactionManager"/>
+    <property name="target">
+      <bean class="org.openmrs.module.files.api.service.impl.FileCategoryServiceImpl">
+        <property name="fileCategoryDAO">
+          <bean class="org.openmrs.module.files.api.dao.FileCategoryDAO">
+            <property name="dbSessionFactory" ref="dbSessionFactory"/>
+          </bean>
+        </property>
+      </bean>
+    </property>
+    <property name="preInterceptors" ref="serviceInterceptors"/>
+    <property name="transactionAttributeSource" ref="transactionAttributeSource"/>
+  </bean>
+  <bean parent="serviceContext">
+    <property name="moduleService">
+      <list merge="true">
+        <value>org.openmrs.module.files.api.service.FileCategoryService</value>
+        <ref bean="files.FileCategoryService"/>
+      </list>
+    </property>
+  </bean>
+</beans>
